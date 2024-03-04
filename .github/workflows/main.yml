@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: sudo docker build -t ${{ secrets.CI_REGISTRY_IMAGE }} .
+
+      - name: Login to Docker Hub
+        run: sudo docker login -u ${{ secrets.CI_REGISTRY_USER }} -p ${{ secrets.CI_REGISTRY_PASSWORD }}
+
+      - name: Push Docker Image
+        run: sudo docker push ${{ secrets.CI_REGISTRY_IMAGE }}
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e  # Exit immediately if a command exits with a non-zero status
+
+            # Pull the latest Docker image
+            sudo docker pull ${{ secrets.CI_REGISTRY_IMAGE }}
+
+            # Stop and remove the existing container, ignoring errors if it doesn't exist
+            sudo docker stop profile_project_backend || true
+            sudo docker rm profile_project_backend || true
+
+            # Run the new Docker container
+            sudo docker run -d -p 80:80 --name profile_project_backend ${{ secrets.CI_REGISTRY_IMAGE }}

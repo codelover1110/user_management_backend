@@ -1,0 +1,10 @@
+__pycache__
+.vscode
+.git
+.dockerignore
+.env
+.DS_Store
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
