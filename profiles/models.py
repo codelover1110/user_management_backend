@@ -13,6 +13,7 @@ class UserProfile(models.Model):
     surname = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=15, unique=True)
+    phone_number_type = models.CharField(max_length=50, editable=False, default="Unknown")
 
     class Meta:
         app_label = 'profiles'
@@ -34,11 +35,14 @@ class UserProfile(models.Model):
         """
         Custom validation for the 'phone_number' field using the utility function.
         """
-        is_valid, classification = validate_and_classify_phone_number(self.phone_number)
+        is_valid, classification, phone_type = validate_and_classify_phone_number(self.phone_number)
 
         if not is_valid:
             # Raise validation error if the phone number is not valid
             raise ValidationError(
-                _(f'Invalid phone number. The provided number is classified as "{classification}".'),
+                _(f'Invalid phone number. The provided number is classified as "{classification}". Phone number type is {phone_type}'),
                 code='invalid_phone_number'
             )
+        else:
+            # Set the value for the phone_number_type field based on the phone_type
+            self.phone_number_type = phone_type
