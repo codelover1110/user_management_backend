@@ -31,7 +31,7 @@ This project demonstrates a simple Django backend with a React frontend to manag
 
     The backend server will be running at `http://127.0.0.1:8000/`.
 
-## Frontend Setup:
+## Frontend Setup (It is not in thie repo):
 
 1. **Navigate to the `frontend` directory:**
 
