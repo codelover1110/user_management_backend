@@ -29,9 +29,9 @@ def validate_and_classify_phone_number(phone_number):
     except phonenumbers.phonenumberutil.NumberParseException as e:
         # Handle NumberParseException, e.g., log the error
         print(f"NumberParseException: {e}")
-        return False, 'Invalid'
+        return False, e
 
     except Exception as e:
         # Handle other exceptions, log the error
         print(f"An unexpected error occurred: {e}")
-        return False, 'Invalid'
+        return False, e
