@@ -4,10 +4,10 @@ This project demonstrates a simple Django backend with a React frontend to manag
 
 ## Backend Setup:
 
-1. **Navigate to the `backend` directory:**
+1. **Navigate to the `user_management_backend` directory:**
 
     ```bash
-    cd backend
+    cd user_management_backend
     ```
 
 2. **Install backend dependencies:**
