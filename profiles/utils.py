@@ -1,4 +1,5 @@
 import phonenumbers
+import re
 
 def validate_and_classify_phone_number(phone_number):
     """
@@ -12,9 +13,17 @@ def validate_and_classify_phone_number(phone_number):
                - bool: True if the phone number is valid, False otherwise.
                - str: A string indicating the classification ('Valid', 'Cell Phone', or 'Invalid').
     """
+    digit_number = re.sub("[^0-9]", "", phone_number)
     try:
         # Attempt to parse the phone number
-        parsed_number = phonenumbers.parse(phone_number, None)
+        parsed_number = phonenumbers.parse(digit_number, None)
+
+    except phonenumbers.phonenumberutil.NumberParseException as e:
+        digit_number = "+1" + digit_number
+
+    try:
+        # Attempt to parse the phone number
+        parsed_number = phonenumbers.parse(digit_number, None)
 
         # Check if the parsed number is possible and valid
         if phonenumbers.is_possible_number(parsed_number) and phonenumbers.is_valid_number(parsed_number):
@@ -29,9 +38,9 @@ def validate_and_classify_phone_number(phone_number):
     except phonenumbers.phonenumberutil.NumberParseException as e:
         # Handle NumberParseException, e.g., log the error
         print(f"NumberParseException: {e}")
-        return False, e
+        return False, f'{e}'
 
     except Exception as e:
         # Handle other exceptions, log the error
         print(f"An unexpected error occurred: {e}")
-        return False, e
+        return False, f'{e}'
