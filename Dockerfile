@@ -16,7 +16,7 @@ RUN pip install -r requirements.txt
 COPY . /app/
 
 # Copy the production environment file to the application directory
-COPY /app/.env.prod /app/.env
+COPY .env.prod .env
 
 # Run python command
 RUN python manage.py makemigrations
