@@ -16,7 +16,7 @@ RUN pip install -r requirements.txt
 COPY . /app/
 
 # Debugging: List files in the current directory
-RUN ls
+RUN ls -a
 
 # Copy the production environment file to the application directory
 COPY .env.prod .env
