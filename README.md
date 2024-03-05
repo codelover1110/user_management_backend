@@ -10,20 +10,28 @@ This project demonstrates a simple Django backend with a React frontend to manag
     cd user_management_backend
     ```
 
-2. **Install backend dependencies:**
+2. **Copy the environment file for development:**
+
+    ```bash
+    cp .env.dev .env
+    ```
+
+    This command copies the development environment file to the application directory.
+
+3. **Install backend dependencies:**
 
     ```bash
     pip install -r requirements.txt
     ```
 
-3. **Apply database migrations:**
+4. **Apply database migrations:**
 
     ```bash
     python manage.py makemigrations
     python manage.py migrate
     ```
 
-4. **Run the Django development server:**
+5. **Run the Django development server:**
 
     ```bash
     python manage.py runserver
