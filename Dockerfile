@@ -8,18 +8,15 @@ ENV DJANGO_SETTINGS_MODULE profile_project.settings
 # Set the working directory in the container
 WORKDIR /app
 
+# Copy the production environment file to the application directory
+COPY .env.prod /app/.env
+
 # Install any needed packages specified in requirements.txt
 COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
 # Copy the current directory contents into the container at /app/
 COPY . /app/
-
-# Debugging: List files in the current directory
-RUN ls -a
-
-# Copy the production environment file to the application directory
-COPY .env.prod .env
 
 # Run python command
 RUN python manage.py makemigrations
