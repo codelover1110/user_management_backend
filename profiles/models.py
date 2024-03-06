@@ -35,12 +35,12 @@ class UserProfile(models.Model):
         """
         Custom validation for the 'phone_number' field using the utility function.
         """
-        is_valid, classification, phone_type = validate_and_classify_phone_number(self.phone_number)
+        is_valid, phone_type = validate_and_classify_phone_number(self.phone_number)
 
         if not is_valid:
             # Raise validation error if the phone number is not valid
             raise ValidationError(
-                _(f'Invalid phone number. The provided number is classified as "{classification}". Phone number type is {phone_type}'),
+                _(f'Invalid phone number. Phone number type is {phone_type}'),
                 code='invalid_phone_number'
             )
         else:
