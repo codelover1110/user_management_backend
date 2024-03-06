@@ -6,4 +6,3 @@ __pycache__
 *.pyc
 *.pyo
 *.pyd
-db.sqlite3

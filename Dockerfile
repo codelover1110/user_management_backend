@@ -15,9 +15,6 @@ RUN pip install -r requirements.txt
 # Copy the current directory contents into the container at /app/
 COPY . /app/
 
-# Copy the development environment file to the application directory
-COPY prod.env .env
-
 # Run python command
 RUN python manage.py makemigrations
 RUN python manage.py migrate
@@ -36,6 +33,9 @@ RUN rm /etc/nginx/sites-enabled/default
 
 # Create the target directory and a symbolic link to the Nginx configuration file
 RUN mkdir -p /etc/nginx/sites-enabled/ && ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+
+# Create .env file and set DEBUG to False
+RUN echo "DEBUG=False" > /app/.env
 
 # Expose port 80 for Nginx
 EXPOSE 80
