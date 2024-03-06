@@ -26,6 +26,22 @@ class UserProfileModelTest(TestCase):
         saved_user = UserProfile.objects.get(id=1)
         self.assertEqual(saved_user.first_name, 'John')
 
+    def test_user_profile_creation_with_specific_phone_number(self):
+        """
+        Test that a user profile creation with a specific phone number fails due to validation error.
+        """
+        specific_phone_number = '+41 (0) 78 927 2696'
+        user = UserProfile.objects.create(
+            first_name='Jane',
+            surname='Doe',
+            email='jane.doe@example.com',
+            phone_number=specific_phone_number
+        )
+
+        self.assertEqual(UserProfile.objects.count(), 2)
+        saved_user = UserProfile.objects.get(phone_number=specific_phone_number)
+        self.assertEqual(saved_user.first_name, 'Jane')
+
 class UserProfileAPITest(TestCase):
     """
     Test cases for UserProfile API views.

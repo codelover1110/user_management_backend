@@ -18,16 +18,15 @@ def validate_and_classify_phone_number(phone_number):
     try:
         # Attempt to parse the phone number
         parsed_number = phonenumbers.parse("+" + digit_number, None)
+        digit_number = "+" + digit_number
 
-    except Exception as e:
-        pass
+    except:
+        try:
+            # Attempt to parse the phone number
+            parsed_number = phonenumbers.parse(digit_number, None)
 
-    try:
-        # Attempt to parse the phone number
-        parsed_number = phonenumbers.parse(digit_number, None)
-
-    except phonenumbers.phonenumberutil.NumberParseException as e:
-        digit_number = "+1" + digit_number
+        except phonenumbers.phonenumberutil.NumberParseException as e:
+            digit_number = "+1" + digit_number
 
     try:
         # Attempt to parse the phone number
