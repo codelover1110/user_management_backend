@@ -38,18 +38,18 @@ def validate_and_classify_phone_number(phone_number):
         if phonenumbers.is_possible_number(parsed_number) and phonenumbers.is_valid_number(parsed_number):
             # Check if the number is a mobile/cell phone number
             if phonenumbers.number_type(parsed_number) == phonenumbers.PhoneNumberType.MOBILE:
-                return False, phone_number_type
+                return False, 'Cell Phone', phone_number_type
             else:
-                return True, phone_number_type
+                return True, 'Valid', phone_number_type
         else:
-            return False, phone_number_type
+            return False, 'Invalid', phone_number_type
 
     except phonenumbers.phonenumberutil.NumberParseException as e:
         # Handle NumberParseException, e.g., log the error
         print(f"NumberParseException: {e}")
-        return False, "Unknown"
+        return False, f'{e}', "Unknown"
 
     except Exception as e:
         # Handle other exceptions, log the error
         print(f"An unexpected error occurred: {e}")
-        return False, "Unknown"
+        return False, f'{e}', "Unknown"

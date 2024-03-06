@@ -15,11 +15,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
         """
         Custom validation for the 'phone_number' field using the utility function.
         """
-        is_valid, phone_type = validate_and_classify_phone_number(value)
+        is_valid, classification, phone_type = validate_and_classify_phone_number(value)
 
         if not is_valid:
-            raise serializers.ValidationError(
-                f'Invalid phone number. Phone number type is {phone_type}'
-            )
+            if classification in ["Invalid", "Cell Phone"]:
+                # Raise validation error if the phone number is not valid
+                raise serializers.ValidationError(
+                    f'Invalid phone number. Phone number type is {phone_type}.'
+                )
+            else:
+                # Raise validation error if the phone number is not valid
+                raise serializers.ValidationError(
+                    f'Invalid phone number. The provided number is classified as "{classification}". Phone number type is {phone_type}.'
+                )
 
         return value
